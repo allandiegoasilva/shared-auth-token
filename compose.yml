@@ -1,0 +1,38 @@
+services:
+  krakend:
+    image: krakend:2.9.4
+    ports:
+      - 8000:8000
+    volumes:
+      - ./configs/gateway/krakend.json:/etc/krakend/krakend.json
+    networks:
+      - dev_stafe
+  grafana:
+    image: grafana/grafana:10.2.3
+    environment:
+      - GF_SECURITY_ADMIN_USER=admin
+      - GF_SECURITY_ADMIN_PASSWORD=admin
+    ports:
+      - 3003:3000
+    volumes:
+      - ./storage/grafana:/var/lib/grafana
+    networks:
+      - dev_stafe
+  
+  tempo:
+    image: grafana/tempo:latest
+    expose:
+      - 4318
+      - 3200
+    command: ["-config.file=/etc/tempo/tempo.yaml"]
+    volumes:
+      - ./configs/grafana/tempo.yaml:/etc/tempo/tempo.yaml
+      - ./storage/tempo:/var/tempo
+    networks:
+      - dev_stafe
+  
+networks:
+  dev_stafe:
+    external: true
+      
+      

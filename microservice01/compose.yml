@@ -1,0 +1,14 @@
+services:
+  microservice01:
+    image: node:22-alpine
+    command: sh -c "cd /app && yarn install && yarn start:dev"
+    volumes:
+      - ./:/app 
+    ports:
+      - 3000:3000
+    networks:
+      - dev_stafe
+
+networks:
+  dev_stafe:
+    external: true
