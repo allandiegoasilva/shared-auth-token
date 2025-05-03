@@ -19,17 +19,18 @@ services:
     networks:
       - dev_stafe
   
-  tempo:
-    image: grafana/tempo:latest
-    expose:
-      - 4318
-      - 3200
-    command: ["-config.file=/etc/tempo/tempo.yaml"]
-    volumes:
-      - ./configs/grafana/tempo.yaml:/etc/tempo/tempo.yaml
-      - ./storage/tempo:/var/tempo
+  jaeger:
+    image: jaegertracing/all-in-one:1.54
+    environment:
+      COLLECTOR_ZIPKIN_HOST_PORT: ":9411"
+    ports:
+      - "5778:5778" # serve configs
+      - "16686:16686" # serve frontend UI
+      - "4317:4317"   # otlp grpc: we remap this to be able to run other envs
+      - "4318:4318" 
     networks:
       - dev_stafe
+  
   
 networks:
   dev_stafe:

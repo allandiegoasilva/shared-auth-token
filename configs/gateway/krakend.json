@@ -1,6 +1,25 @@
 {
   "version": 3,
   "port": 8000,
+  "tls": {
+    "disabled": true
+  },
+  "extra_config": {
+    "telemetry/opentelemetry": {
+      "service_name": "krakend-gateway",
+      "exporters": {
+        "otlp": [
+          {
+            "host": "jaeger",
+            "name": "krakend-gateway",
+            "use_http": false,
+            "port": 4317,
+            "disable_metrics": true
+          }
+        ]
+      }
+    }
+  },
   "endpoints": [
     {
       "endpoint": "/m1-users",
@@ -10,19 +29,7 @@
           "url_pattern": "/users",
           "host": ["http://microservice01:3000"]
         }
-      ],
-      "extra_config": {
-        "telemetry/opentelemetry": {
-          "exporters": [
-            {
-              "type": "otlp",
-              "host": "tempo",
-              "port": 4318,
-              "name": "microservice01-users-endpoint"
-            }
-          ]
-        }
-      }
+      ]
     },
     {
       "endpoint": "/m1-subscriptions/{userId}",
