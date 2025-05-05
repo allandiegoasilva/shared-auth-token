@@ -9,6 +9,8 @@ export class UserListController {
 
   @Get()
   async getUsers(): Promise<ReplyDto<UserDto[]>> {
+     
+    console.log('ACESSOU A ROTA DE OBTER USUÁRIOS');
     return this.userListService.execute();
   }
 }

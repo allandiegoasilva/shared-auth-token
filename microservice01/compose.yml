@@ -8,6 +8,11 @@ services:
       - 3000:3000
     networks:
       - dev_stafe
+    logging:
+      driver: gelf
+      options:
+        gelf-address: "udp://172.20.0.7:12201"
+        tag: "microservice01"
 
 networks:
   dev_stafe:

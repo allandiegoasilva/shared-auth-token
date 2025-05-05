@@ -18,6 +18,18 @@
           }
         ]
       }
+    },
+    "telemetry/logging": {
+          "level": "INFO",
+          "prefix": "[KRAKEND]",
+          "stdout": true,
+          "syslog": false,
+          "format":"custom",
+          "custom_format": "%{message}"
+      },
+    "telemetry/gelf": {
+      "address": "logstash:12201",
+      "enable_tcp": false
     }
   },
   "endpoints": [

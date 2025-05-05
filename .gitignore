@@ -1,3 +1,5 @@
 /**/node_modules
 /storage/grafana/*
 /storage/tempo/*
+/storage/prometheus/*
+/storage/elasticsearch/*

@@ -19,18 +19,56 @@ services:
     networks:
       - dev_stafe
   
+  logstash:
+    image: docker.elastic.co/logstash/logstash:8.10.2
+    expose:
+      - '5044'
+      - "12201/udp"
+    volumes:
+      - ./configs/logstash/config.conf:/usr/share/logstash/pipeline/logstash.conf
+    environment:
+      - "xpack.monitoring.elasticsearch.url=http://elasticsearch:9200"
+    networks:
+      - dev_stafe
+  
+  elasticsearch:
+    image: docker.elastic.co/elasticsearch/elasticsearch:8.10.2
+    environment:
+      - discovery.type=single-node
+      - xpack.security.enabled=false
+      - ES_JAVA_OPTS=-Xmx1g -Xms1g
+    ports:
+      - '9200:9200'
+    expose:
+      - 9200
+    volumes:
+      - ./storage/elasticsearch:/usr/share/elasticsearch/data
+    networks:
+      - dev_stafe
+  
   jaeger:
     image: jaegertracing/all-in-one:1.54
     environment:
       COLLECTOR_ZIPKIN_HOST_PORT: ":9411"
     ports:
-      - "5778:5778" # serve configs
-      - "16686:16686" # serve frontend UI
-      - "4317:4317"   # otlp grpc: we remap this to be able to run other envs
+      - "5778:5778" 
+      - "16686:16686" 
+      - "4317:4317"  
       - "4318:4318" 
     networks:
       - dev_stafe
   
+  prometheus:
+    image: prom/prometheus:latest
+    volumes:
+      - ./configs/prometheus/prometheus.yml:/etc/prometheus/prometheus.yml
+      - ./storage/prometheus:/prometheus
+    ports:
+      - "9090:9090"
+    expose:
+      - 9090
+    networks:
+      - dev_stafe
   
 networks:
   dev_stafe:

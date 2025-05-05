@@ -42,12 +42,24 @@ export const options = {
 };
 
 export default function () {
-  const response = http.get('http://localhost:8000/m1-users');
+  // Requisição para /m1-users
+  const usersResponse = http.get('http://localhost:8000/m1-users');
   
-  check(response, {
-    'status is 200': (r) => r.status === 200,
-    'response time < 500ms': (r) => r.timings.duration < 500,
+  check(usersResponse, {
+    'users status is 200': (r) => r.status === 200,
+    'users response time < 500ms': (r) => r.timings.duration < 500,
   });
 
-  sleep(randomIntBetween(1, 3));
+  sleep(randomIntBetween(1, 2));
+
+  // Requisição para /m1-subscriptions/{userId}
+  const userId = randomIntBetween(1, 10);
+  const subscriptionsResponse = http.get(`http://localhost:8000/m1-subscriptions/${userId}`);
+  
+  check(subscriptionsResponse, {
+    'subscriptions status is 200': (r) => r.status === 200,
+    'subscriptions response time < 500ms': (r) => r.timings.duration < 500,
+  });
+
+  sleep(randomIntBetween(1, 2));
 }
