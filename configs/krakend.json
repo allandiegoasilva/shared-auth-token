@@ -1,0 +1,17 @@
+{
+  "version": 3,
+  "port": 8000,
+  "endpoints": [
+    {
+      "endpoint": "/user/create",
+      "method": "GET",
+      "backend": [
+        {
+          "url_pattern": "/authorization",
+          "method": "POST",
+          "host": ["http://microservice01:3000"]
+        }
+      ]
+    }
+  ]
+}
