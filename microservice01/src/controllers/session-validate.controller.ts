@@ -1,4 +1,4 @@
-import { Controller, Post } from "@nestjs/common";
+import { Body, Controller, Post, Query, UnauthorizedException } from "@nestjs/common";
 import { ReplyDto } from "src/dtos/reply.dto";
 import { UserDto } from "src/dtos/user.dto";
 
@@ -8,9 +8,13 @@ export class SessionValidateController {
   @Post()
   async getAuthorization(): Promise<object> {
      
-    console.log('ACESSOU A ROTA DE OBTER USUÁRIOS');
+    // Validação básica de autorização
+    const token = '1234567890';
+    
+    
     return {
-      accessToken: '1234567890',
-    }
+      token: '1234567890',
+    };
+
   }
 }

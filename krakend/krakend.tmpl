@@ -1,0 +1,11 @@
+{
+    "$schema": "https://www.krakend.io/schema/v3.json",
+    "version": 3,
+    "name": "Sample Gateway",
+    "port":8000,
+    "timeout": "30s",
+    "cache_ttl": "300s",
+    "endpoints": [
+      {{ template "endpoint.tmpl" . }}
+   ]
+}

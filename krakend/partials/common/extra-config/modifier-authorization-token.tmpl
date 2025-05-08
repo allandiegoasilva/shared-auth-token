@@ -1,0 +1,4 @@
+"modifier/lua-backend": {
+  "allow_open_libs": true,
+  "pre": "local req = request.load(); req:headers('Authorization', 'Bearer ' .. req:params('Resp0_token'));"
+}
