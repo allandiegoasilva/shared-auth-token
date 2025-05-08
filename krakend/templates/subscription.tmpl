@@ -1,22 +1,24 @@
-
-
 {{ range $idx, $endpoint := .endpoints_list.paths }}
   {{ if $idx }},{{ end }}
   {
     "endpoint": "{{$endpoint.path}}",
     "method": "{{$endpoint.method}}",
+
     {{ if has "authorization" $endpoint.headers }}
       {{ include "common/input-headers/auth.tmpl"}},
     {{ end }}
+
     "extra_config": {
       {{if has "authorization" $endpoint.headers }}
         {{ include "common/extra-config/proxy.tmpl" }}
       {{ end }}
     },
     "backend": [
+
       {{ if has "authorization" $endpoint.headers }}
        {{ include "common/services/auth-service.tmpl" }},
       {{ end }}
+
       {{ range $idx, $backend := $endpoint.backend }}
         {{ if $idx }},{{ end }}
         {

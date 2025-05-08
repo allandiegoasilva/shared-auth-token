@@ -7,36 +7,47 @@
     "cache_ttl": "300s",
     "endpoints": [
       
-
-
   
   {
-    "endpoint": "$endpoint.path",
-    "method": "$endpoint.method",
+    "endpoint": "/user",
+    "method": "GET",
+
     
       "input_headers": ["authorization"],
     
+
     "extra_config": {
-      "proxy": {"sequential": true, "sequential_propagated_params": ["resp0_token"]}
+      
+        "proxy": {"sequential": true, "sequential_propagated_params": ["resp0_token"]}
+      
     },
     "backend": [
-      {
+
+      
+       {
   "url_pattern": "session-validate",
   "method": "POST",
   "host": ["http://microservice01:3000"]
 },
-      {
-        "url_pattern": "subscriptions",
-        "method": "POST",
-        "host": ["http://microservice02:3001"],
-        "encoding": "json",
-        "extra_config": {
-          "modifier/lua-backend": {
+      
+
+      
+        
+        {
+          "url_pattern": "user",
+          "method": "GET",
+          "host": ["[http://microservice01:3000]"],
+          "encoding": "<no value>",
+          "extra_config": {
+            
+              "modifier/lua-backend": {
   "allow_open_libs": true,
   "pre": "local req = request.load(); req:headers('Authorization', 'Bearer ' .. req:params('Resp0_token'));"
 }
+            
+          }
         }
-      }
+      
     ]
   }
 
