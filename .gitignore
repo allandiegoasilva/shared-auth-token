@@ -3,3 +3,5 @@
 /storage/tempo/*
 /storage/prometheus/*
 /storage/elasticsearch/*
+*_generated.json
+/**/out.json
