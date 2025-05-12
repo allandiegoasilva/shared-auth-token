@@ -1,0 +1,21 @@
+{{ range $idx, $endpoint := .public_generated.routes  }}
+  {{ if $idx }},{{ end }}
+  {
+    "endpoint": "{{$endpoint.endpoint}}",
+    "method": "{{$endpoint.method}}",
+    "extra_config": {
+      {{ include "extra-config/proxy.tmpl" }}
+    },
+    "backend": [
+      {{ range $idx, $backend := $endpoint.backend }}
+        {{ if $idx }},{{ end }}
+        {
+          "url_pattern": "{{$backend.url_pattern}}",
+          "method": "{{$backend.method}}",
+          "host": ["{{$backend.host}}"],
+          "encoding": "{{$backend.encoding}}"
+        }
+      {{ end }}
+    ]
+  }
+{{ end }}

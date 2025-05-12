@@ -1,11 +1,12 @@
 {
     "$schema": "https://www.krakend.io/schema/v3.json",
     "version": 3,
-    "name": "Sample Gateway",
-    "port":8000,
+    "name": "Stafebank - API Gateway",
+    "port":9000,
     "timeout": "30s",
     "cache_ttl": "300s",
-    "endpoints": [
-      {{ template "subscription.tmpl" . }}
+   "endpoints": [
+      {{ template "example.tmpl" . }},
+      {{ template "public.tmpl" . }}
    ]
 }

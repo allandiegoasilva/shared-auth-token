@@ -1,56 +1,64 @@
 {
     "$schema": "https://www.krakend.io/schema/v3.json",
     "version": 3,
-    "name": "Sample Gateway",
-    "port":8000,
+    "name": "Stafebank - API Gateway",
+    "port":9000,
     "timeout": "30s",
     "cache_ttl": "300s",
-    "endpoints": [
+   "endpoints": [
       
   
   {
-    "endpoint": "/user",
-    "method": "GET",
-
-    
-      "input_headers": ["authorization"],
-    
-
+    "endpoint": "/auth/change-password",
+    "method": "POST",
+    "input_headers": ["authorization"],
     "extra_config": {
-      
-        "proxy": {"sequential": true, "sequential_propagated_params": ["resp0_token"]}
-      
+      "proxy": {"sequential": true, "sequential_propagated_params": ["resp0_token"]}
     },
     "backend": [
-
-      
-       {
+      {
   "url_pattern": "session-validate",
   "method": "POST",
-  "host": ["http://microservice01:3000"]
+  "host": ["http://auth_service:3000"]
 },
-      
-
       
         
         {
-          "url_pattern": "user",
-          "method": "GET",
-          "host": ["[http://microservice01:3000]"],
-          "encoding": "<no value>",
+          "url_pattern": "/auth/change-password",
+          "method": "POST",
+          "host": ["[http://auth:3000]"],
+          "encoding": "json",
           "extra_config": {
-            
-              "modifier/lua-backend": {
+            "modifier/lua-backend": {
   "allow_open_libs": true,
   "pre": "local req = request.load(); req:headers('Authorization', 'Bearer ' .. req:params('Resp0_token'));"
 }
-            
           }
         }
       
     ]
   }
-
+,
+      
+  
+  {
+    "endpoint": "/public/example",
+    "method": "POST",
+    "extra_config": {
+      "proxy": {"sequential": true, "sequential_propagated_params": ["resp0_token"]}
+    },
+    "backend": [
+      
+        
+        {
+          "url_pattern": "/public/example",
+          "method": "POST",
+          "host": ["[http://auth:3000]"],
+          "encoding": "json"
+        }
+      
+    ]
+  }
 
 
    ]

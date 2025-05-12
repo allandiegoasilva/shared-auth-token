@@ -1,0 +1,26 @@
+{{ range $idx, $endpoint := .example_generated.routes  }}
+  {{ if $idx }},{{ end }}
+  {
+    "endpoint": "{{$endpoint.endpoint}}",
+    "method": "{{$endpoint.method}}",
+    {{ include "input-headers/auth.tmpl"}},
+    "extra_config": {
+      {{ include "extra-config/proxy.tmpl" }}
+    },
+    "backend": [
+      {{ include "services/auth-service.tmpl" }},
+      {{ range $idx, $backend := $endpoint.backend }}
+        {{ if $idx }},{{ end }}
+        {
+          "url_pattern": "{{$backend.url_pattern}}",
+          "method": "{{$backend.method}}",
+          "host": ["{{$backend.host}}"],
+          "encoding": "{{$backend.encoding}}",
+          "extra_config": {
+            {{ include "extra-config/modifier-authorization-token.tmpl" }}
+          }
+        }
+      {{ end }}
+    ]
+  }
+{{ end }}

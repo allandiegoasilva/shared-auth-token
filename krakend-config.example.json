@@ -1,6 +1,7 @@
 {
   "version": 3,
   "port": 8000,
+  
   "endpoints": [
     {
       "endpoint": "/subscriptions",

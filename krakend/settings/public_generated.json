@@ -1,0 +1,19 @@
+{
+  "routes": [
+    {
+    "endpoint": "/public/example",
+    "method": "POST",
+    "output_encoding": "json",
+    "backend": [
+      {
+        "url_pattern": "/public/example",
+        "host": [
+          "http://auth:3000"
+        ],
+        "encoding": "json",
+        "method": "POST"
+      }
+    ]
+    }
+  ]
+}
